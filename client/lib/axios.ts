@@ -2,9 +2,13 @@ import axios from "axios";
 
 // 🔧 Get correct base URL (local + production safe)
 const getBaseURL = () => {
-  // Always use /api to benefit from Netlify's redirects and Vite's proxy.
-  // This avoids hardcoding the Render URL and prevents path mismatch.
-  return "/api";
+  const isLocal = window.location.hostname === "localhost";
+
+  if (isLocal) {
+    return "http://localhost:8000/api";
+  }
+
+  return "https://legaldocs-ai.onrender.com";
 };
 
 const api = axios.create({
