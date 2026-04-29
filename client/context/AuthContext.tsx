@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         // 🔥 Validate token with backend
-        fetch(`${import.meta.env.VITE_API_URL}/api/me`, {
+        fetch("/api/me", {
             headers: {
                 Authorization: `Bearer ${storedToken}`,
             },

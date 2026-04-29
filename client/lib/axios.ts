@@ -2,16 +2,9 @@ import axios from "axios";
 
 // 🔧 Get correct base URL (local + production safe)
 const getBaseURL = () => {
-  const envUrl = import.meta.env.VITE_API_URL;
-
-  if (!envUrl) {
-    // fallback for local dev proxy (vite)
-    return "/api";
-  }
-
-  // ensure no double slashes and always ends with /api
-  const cleanUrl = envUrl.replace(/\/+$/, "");
-  return `${cleanUrl}/api`;
+  // Always use /api to benefit from Netlify's redirects and Vite's proxy.
+  // This avoids hardcoding the Render URL and prevents path mismatch.
+  return "/api";
 };
 
 const api = axios.create({
