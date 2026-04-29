@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ai-legal-summarizer-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: "postgres://user:pass@host:port/dbname" # Will be overridden in Dashboard
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - fromGroup: ai-legal-summarizer-secrets
+
+envVarGroups:
+  - name: ai-legal-summarizer-secrets
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_MODEL
+        value: arcee-ai/trinity-large-preview:free
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256

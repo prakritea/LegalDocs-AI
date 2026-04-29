@@ -1,0 +1,119 @@
+# Interview Preparation: AI Legal Summarizer Project
+
+This document contains 100 potential interview questions categorized by domain to help you present your project effectively.
+
+## 🏛️ Architecture & System Design (15 Questions)
+1.  **Give a high-level overview of the project architecture.** (Answer: Front-end React SPA, Backend Express server, AI orchestration via RAG).
+2.  **Why did you choose a monolithic repository (Monorepo) structure versus separate microservices?**
+3.  **Explain the data flow from the moment a user uploads a PDF to the final summary display.**
+4.  **How do you handle communication between the React frontend and the Express backend?**
+5.  **What were the biggest architectural challenges you faced when building this?**
+6.  **How would you scale this application to handle 10,000 concurrent users?**
+7.  **Why did you choose the "@shared" path alias for types?** (Answer: Type safety across the stack).
+8.  **If you had to replace Express with a serverless architecture (like AWS Lambda), how would it change the system?**
+9.  **How is state managed in the frontend? Why did you pick that approach?**
+10. **Explain the decision-edge between running logic on the client versus the server in this app.**
+11. **How does the application handle large file uploads without crashing the server?**
+12. **What database would you choose for storing these summaries and why?**
+13. **How do you ensure the system is "production-ready"?**
+14. **Explain the role of Vite in your development and build process.**
+15. **How would you implement a "Revision History" feature for documents?**
+
+## 🧠 AI, RAG & LLM Engineering (20 Questions)
+16. **What is RAG (Retrieval-Augmented Generation) and how is it used here?**
+17. **Explain your "Semantic Chunking" strategy. Why not just send the whole PDF?**
+18. **How do you handle the context window limits of the LLM?**
+19. **What is "Token Overlap" in chunking, and why is it critical for legal documents?**
+20. **How do you prevent "hallucinations" in the legal summaries?**
+21. **How did you design the prompts for components like the "Legal Timeline"?**
+22. **Explain the difference between "executive summary" and "page-wise intelligence" in your prompt architecture.**
+23. **How does the system extract "Entities" and "Relationships" from unstructured text?**
+24. **Why did you use JSON-mode or structured output for the AI responses?**
+25. **What happens if the AI returns a malformed JSON? How does your parser handle it?**
+26. **Have you experimented with different models (Gemini 2.0 vs GPT-4)? What were the trade-offs?**
+27. **How do you measure the quality or accuracy of the generated summaries?**
+28. **Explain the "Distributed Analysis" concept in your engineering animation.**
+29. **How would you implement "Source Citations" so users can verify where a fact came from?**
+30. **How do you handle "Legal Latin" or complex jargon in the AI prompts?**
+31. **Can the system handle multi-lingual legal documents? If not, how would you add it?**
+32. **What is the "System Instruction" and how does it differ from a "User Prompt"?**
+33. **How do you handle documents that are 500+ pages long?**
+34. **If the AI model is slow, how do you manage the user experience?**
+35. **Explain the "Risk Severity Scoring" logic—is it purely AI or hardcoded heuristics?**
+
+## 💻 Backend Engineering (15 Questions)
+36. **How do you structure your Express routes for maintainability?**
+37. **Explain the middleware used for processing file uploads (e.g., Multer).**
+38. **How do you handle environment variables safely in the backend?**
+39. **How would you implement Rate Limiting to prevent API abuse?**
+40. **What is the significance of the `/api/` prefix in your routing?**
+41. **How do you handle asynchronous errors in your Express handlers?**
+42. **Explain how you share TypeScript interfaces between the server and the client.**
+43. **How would you implement a Webhook to notify users when a long summary is done?**
+44. **What is the purpose of `express.json()` and `express.urlencoded()`?**
+45. **How do you handle CORS in this application?**
+46. **How would you add Authentication (JWT vs Sessions) to this project?**
+47. **Explain the lifecycle of a request in your backend.**
+48. **How would you structure a "Job Queue" for background processing of PDFs?**
+49. **How do you log server-side errors efficiently?**
+50. **Describe a specific bug you found in the backend and how you fixed it.**
+
+## 🎨 Frontend & UI/UX (15 Questions)
+51. **Why React and not a simpler framework for this project?**
+52. **Explain the "Cinematic" animations you added using Framer Motion.**
+53. **How do you ensure the UI remains responsive on mobile devices?**
+54. **What is "Glassmorphism" and how did you implement it in the navbar?**
+55. **Explain the [GlowCard](file:///Users/prakriti/Downloads/AI%20Legal%20Summarizer%20Assistant/client/pages/Index.tsx#171-202) component. How does it track mouse movement without lag?**
+56. **Why did you choose TailwindCSS over traditional CSS-in-JS or SCSS?**
+57. **How does the "Engineering Pipeline" animation help the user experience?**
+58. **Explain the use of `AnimatePresence` for entrance/exit animations.**
+59. **How do you handle loading states for the deep analysis suite?**
+60. **What are "Radix UI" and "Shadcn" and why were they used?**
+61. **How do you implement the "Staggered Reveal" effect for text?**
+62. **How do you manage complex object structures (like the Analysis data) in React?**
+63. **Explain the concept of "Micro-animations" in your project.**
+64. **How would you implement "Dark Mode" vs "Light Mode" toggling?**
+65. **How do you handle file drop interactions on the landing page?**
+
+## 🔒 Security, Privacy & Compliance (10 Questions)
+66. **Legal tech is sensitive. How do you protect user-uploaded documents?**
+67. **Does the AI provider store the data sent to them? How do you mitigate this?**
+68. **What is "Data Masking" and would it be useful here?**
+69. **How do you ensure the PDF is deleted from the server after processing?**
+70. **How would you implement SOC2 compliance in this application?**
+71. **Explain the security risks of "Prompt Injection" and how to prevent it.**
+72. **How do you handle "Sensitive Personal Information" (PII) in legal docs?**
+73. **Is the data encrypted at rest? How would you implement that?**
+74. **How do you validate file types to prevent malicious uploads?**
+75. **What headers (like Helmet.js) should be added to the backend for security?**
+
+## 🚀 Performance & Optimization (10 Questions)
+76. **How did you optimize the Vitest testing suite for faster CI/CD?**
+77. **What is "Code Splitting" and how does it help the landing page?**
+78. **How do you reduce the "First Contentful Paint" for the landing page?**
+79. **How would you implement Redis caching for repeated document summaries?**
+80. **Explain how you optimized the Luminescence glow effect to avoid high CPU usage.**
+81. **What is "Debouncing" and where would you use it in this app?**
+82. **How do you optimize the LLM payload size to reduce latency and cost?**
+83. **How does "HMR" (Hot Module Replacement) work in your Vite setup?**
+84. **What is the performance cost of using Framer Motion on a landing page?**
+85. **How would you profile the application to find a memory leak?**
+
+## 🧪 Testing, Quality & DevOps (10 Questions)
+86. **Explain your testing strategy for this project.**
+97. **How do you write a unit test for the AI parser logic?**
+88. **What is the difference between Unit, Integration, and E2E testing in your app?**
+89. **Why choose Vitest over Jest for this project?**
+90. **How would you set up a Git-based CI/CD pipeline for this?**
+91. **Where would you deploy this application (Netlify, Vercel, Render) and why?**
+92. **How do you handle "Mocking" an AI response in your test environment?**
+93. **What is "Snapshot Testing" and is it useful for your UI components?**
+94. **How do you ensure TypeScript type-checks pass before a production build?**
+95. **How would you perform "Load Testing" on the PDF ingestion endpoint?**
+
+## 🌟 Soft Skills & Future (5 Questions)
+96. **What was the most difficult feature to implement and why?**
+97. **If you had 2 more weeks, what feature would you add next?**
+98. **How did you decide which features to prioritize for the MVP?**
+99. **How do you keep up with the fast-moving AI landscape for this project?**
+100. **Why are you passionate about building tools for the legal industry?**

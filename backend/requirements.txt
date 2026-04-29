@@ -1,0 +1,38 @@
+# Core backend framework
+fastapi
+uvicorn
+
+# LangChain core and community packages
+langchain
+langchain-community
+langchain-experimental
+langchain-openai
+langchain-text-splitters
+openai
+
+# Google Gemini AI (legacy/optional)
+langchain-google-genai
+google-generativeai
+google-cloud-aiplatform
+
+# PDF reading and text processing
+pypdf
+pymupdf
+
+# File upload
+python-multipart
+
+# Authentication
+sqlalchemy
+passlib[bcrypt]
+python-jose
+bcrypt==4.1.2
+passlib==1.7.4
+
+# Environment and utilities
+python-dotenv
+google
+psycopg2-binary
+authlib
+httpx
+itsdangerous

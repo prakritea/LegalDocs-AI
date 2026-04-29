@@ -1,0 +1,27 @@
+[build]
+  # Run commands in the root where package.json is
+  base = "."
+  command = "npm run build:client"
+  publish = "client/dist/spa"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[dev]
+  command = "vite"
+  port = 5173
+  targetPort = 5173
+  publish = "client/dist"
+  autoLaunch = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://ai-legal-summarizer-backend.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
