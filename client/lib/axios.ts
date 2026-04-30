@@ -8,7 +8,7 @@ const getBaseURL = () => {
     return "http://localhost:8000/api";
   }
 
-  return "https://legaldocs-ai.onrender.com";
+  return "https://legaldocs-ai.onrender.com/api"; // 🔥 ADD /api HERE
 };
 
 const api = axios.create({
