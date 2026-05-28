@@ -31,6 +31,7 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -67,6 +68,7 @@ export default function SignIn() {
         password: formData.password,
       };
 
+    setIsSubmitting(true);
     try {
       const response = await api.post<{ access_token: string, user: any }>(endpoint, payload);
       const data = response.data;
@@ -87,6 +89,8 @@ export default function SignIn() {
       console.error("Auth error:", err);
       const errorMsg = err.response?.data?.detail || err.response?.data?.error || err.message || "Failed to connect to the server.";
       toast.error(errorMsg);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -168,8 +172,8 @@ export default function SignIn() {
         )}
       </header>
 
-      <main className="relative flex-1 flex flex-col items-center justify-center p-4 z-10 w-full mx-auto min-h-screen">
-        <div className="w-full max-w-lg mt-8">
+      <main className="relative flex-1 flex flex-col items-center pt-32 pb-8 px-4 z-10 w-full mx-auto min-h-screen">
+        <div className="w-full max-w-lg">
           <Card className="shadow-2xl border border-zinc-800 bg-zinc-950/80 backdrop-blur-xl">
             <CardHeader className="space-y-4 pb-8">
               <div className="text-center">
@@ -327,8 +331,18 @@ export default function SignIn() {
                   </div>
                 )}
 
-                <Button type="submit" className="w-full bg-brand-800 hover:bg-brand-700 text-white border-0 py-6 text-lg font-semibold shadow-lg shadow-brand-900/20" size="lg">
-                  {isSignUp ? 'Create Account' : 'Sign In'}
+                <Button type="submit" disabled={isSubmitting} className="w-full bg-brand-800 hover:bg-brand-700 text-white border-0 py-6 text-lg font-semibold shadow-lg shadow-brand-900/20 disabled:opacity-60 disabled:cursor-not-allowed" size="lg">
+                  {isSubmitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      {isSignUp ? 'Creating Account...' : 'Signing In...'}
+                    </span>
+                  ) : (
+                    isSignUp ? 'Create Account' : 'Sign In'
+                  )}
                 </Button>
               </form>
 
