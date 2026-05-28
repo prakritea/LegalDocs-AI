@@ -1,14 +1,8 @@
 import os
 import traceback
 import logging
-from typing import List, Tuple, Dict, Optional
+from typing import List, Tuple, Dict
 from dotenv import load_dotenv
-
-# LangChain core and community packages
-from langchain_openai import ChatOpenAI
-from langchain_community.document_loaders import PyMuPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel, Field
 
 # Initialize logging
@@ -17,12 +11,6 @@ logger = logging.getLogger(__name__)
 
 # Load .env from root - forcing override to ensure .env changes are picked up
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"), override=True)
-
-# Constants
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "arcee-ai/trinity-large-preview")
-
-logger.info(f"Loaded OPENROUTER_MODEL from env: {OPENROUTER_MODEL}")
 
 class DocMetadata(BaseModel):
     doc_type: str = Field(description="Type of document: Contract, Judgment, Statute, etc.")
@@ -35,12 +23,16 @@ class RAGManager:
     """
     Optimized for Render Free Tier (512MB RAM).
     Uses 'Stuffing' logic instead of local vector databases to save memory.
+    All heavy imports are lazy-loaded inside methods to keep server startup fast.
     """
     def __init__(self):
+        OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
         if not OPENROUTER_API_KEY:
             raise ValueError("OPENROUTER_API_KEY not found in environment. Please check your Render environment settings.")
+        
+        # Lazy imports: langchain packages are heavy; only load when needed
+        from langchain_openai import ChatOpenAI
             
-        # OpenRouter LLM setup
         model_name = os.getenv("OPENROUTER_MODEL", "arcee-ai/trinity-large-preview")
         logger.info(f"Initializing RAGManager with model: {model_name}")
         
@@ -68,7 +60,7 @@ class RAGManager:
     def extract_metadata(self, text: str) -> DocMetadata:
         """Uses a fast LLM pass to extract high-level legal metadata."""
         try:
-            logger.info(f"Extracting legal metadata using {OPENROUTER_MODEL}...")
+            logger.info(f"Extracting legal metadata using {os.getenv('OPENROUTER_MODEL', 'arcee-ai/trinity-large-preview')}...")
             # Sample only the beginning for metadata
             sample_text = text[:10000]
             
@@ -103,6 +95,7 @@ class RAGManager:
         """
         try:
             logger.info(f"Processing PDF in v2.0 Chunked Mode: {pdf_path}")
+            from langchain_community.document_loaders import PyMuPDFLoader
             loader = PyMuPDFLoader(pdf_path)
             documents = loader.load()
             
@@ -115,6 +108,7 @@ class RAGManager:
             doc_meta = self.extract_metadata(full_text[:10000])
 
             # 2. Split into chunks for deep recall
+            from langchain_text_splitters import RecursiveCharacterTextSplitter
             text_splitter = RecursiveCharacterTextSplitter(
                 chunk_size=7000,
                 chunk_overlap=600
